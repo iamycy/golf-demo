@@ -1,0 +1,352 @@
+<!doctype html>
+<html lang="en" class="h-100">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="Chin-Yun Yu">
+    <title>Singing Voice Synthesis Using Differentiable LPC and Glottal-Flow-Inspired Wavetables</title>
+
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+          integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    <meta name="theme-color" content="#563d7c">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.0/font/bootstrap-icons.css">
+</head>
+
+<body>
+<!-- Page Content -->
+<div class="text-center">
+    <div class="row">
+        <div class="col-lg-12">
+            <br>
+            <h1 class="mt-5 mb-3">Singing Voice Synthesis Using Differentiable LPC and Glottal-Flow-Inspired Wavetables</h1>
+            <p class="lead">
+                <a href="https://yoyololicon.github.io/" target=”_blank”>Chin-Yun Yu</a> and
+                <a href="http://www.eecs.qmul.ac.uk/~gyorgyf/" target=”_blank”>György Fazekas</a>,
+            </p>
+
+            <p class="lead">Centre for Digital Music, Queen Mary University of London</p>
+
+            <div>
+                <a class="btn btn-outline-dark" href="https://arxiv.org/abs/" target=”_blank” type="button">
+                    <i class="bi bi-newspaper"></i> Paper</a>
+                <a class="btn btn-outline-dark" href="https://github.com/yoyololicon/golf/" target=”_blank”
+                   type="button">
+                    <i class="bi bi-code-slash"></i> Code</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="mt-3 text-center">
+        <img class="img-fluid" src='assets/images/diagram.png' style="max-width: 450px; margin-left: auto; margin-right: auto;">
+    </div>
+
+    <div class="section mt-5 mb-5">
+        <div class="abstract">
+            <h2 class="text-center">Abstract</h2>
+            <hr>
+            <p>
+                This paper introduces GlOttal-flow LPC Filter (GOLF), a novel method for singing voice synthesis (SVS) that exploits the physical characteristics of the human voice using differentiable digital signal processing.
+                GOLF employs a glottal model as the harmonic source and IIR filters to simulate the vocal tract, resulting in an interpretable and efficient approach. 
+                We show it is competitive with state-of-the-art singing voice vocoders, requiring fewer synthesis parameters and less memory to train, and runs an order of magnitude faster for inference. 
+                Additionally, we demonstrate that GOLF can model the phase components of the human voice, which has immense potential for rendering and analysing singing voices in a differentiable manner.
+                Our results highlight the effectiveness of incorporating the physical properties of the human voice mechanism into SVS and underscore the advantages of signal-processing-based approaches, which offer greater interpretability and efficiency in synthesis.            
+            </p>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2 class="text-center">Listening Samples</h2>
+        <hr>
+
+        <h3 class="">Singer f1</h3>
+
+        <table class="table table-sm text-center" style="vertical-align: middle;">
+            <tr>
+                <th>Test clip</th>
+                <th><span>Reference</span></th>
+                <th><span class="ddsp">DDSP</span></th>
+                <th><span class="saw">SawSing</span></th>
+                <th><span class="pulf">PULF</span></th>
+                <th><span class="golf">GOLF</span></th>
+            </tr>
+
+            <tr>
+                <td class="passage">Clip 1
+                </td>
+                <td>
+                    <audio controls="controls" class="player" preload="metadata">
+                        <source src="audio/gt_f1_1.wav" type="audio/wav">
+                        Your browser does not support the audio element.
+                    </audio>
+                </td>
+                <td>
+                    <audio controls="controls" class="player" preload="metadata">
+                        <source src="audio/ddsp_f1_1.wav" type="audio/wav">
+                        Your browser does not support the audio element.
+                    </audio>
+                </td>
+                <td>
+                    <audio controls="controls" class="player" preload="metadata">
+                        <source src="audio/sawsing_f1_1.wav" type="audio/wav">
+                        Your browser does not support the audio element.
+                    </audio>
+                </td>
+                <td>
+                    <audio controls="controls" class="player" preload="metadata">
+                        <source src="audio/pulse_f1_1.wav" type="audio/wav">
+                        Your browser does not support the audio element.
+                    </audio>
+                </td>
+                <td>
+                    <audio controls="controls" class="player" preload="metadata">
+                        <source src="audio/glottal_d_f1_1.wav" type="audio/wav">
+                        Your browser does not support the audio element.
+                    </audio>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="passage">Clip 2
+                </td>
+                <td>
+                    <audio controls="controls" class="player" preload="metadata">
+                        <source src="audio/gt_f1_2.wav" type="audio/wav">
+                        Your browser does not support the audio element.
+                    </audio>
+                </td>
+                <td>
+                    <audio controls="controls" class="player" preload="metadata">
+                        <source src="audio/ddsp_f1_2.wav" type="audio/wav">
+                        Your browser does not support the audio element.
+                    </audio>
+                </td>
+                <td>
+                    <audio controls="controls" class="player" preload="metadata">
+                        <source src="audio/sawsing_f1_2.wav" type="audio/wav">
+                        Your browser does not support the audio element.
+                    </audio>
+                </td>
+                <td>
+                    <audio controls="controls" class="player" preload="metadata">
+                        <source src="audio/pulse_f1_2.wav" type="audio/wav">
+                        Your browser does not support the audio element.
+                    </audio>
+                </td>
+                <td>
+                    <audio controls="controls" class="player" preload="metadata">
+                        <source src="audio/glottal_d_f1_2.wav" type="audio/wav">
+                        Your browser does not support the audio element.
+                    </audio>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="passage">Clip 3
+                </td>
+                <td>
+                    <audio controls="controls" class="player" preload="metadata">
+                        <source src="audio/gt_f1_3.wav" type="audio/wav">
+                        Your browser does not support the audio element.
+                    </audio>
+                </td>
+                <td>
+                    <audio controls="controls" class="player" preload="metadata">
+                        <source src="audio/ddsp_f1_3.wav" type="audio/wav">
+                        Your browser does not support the audio element.
+                    </audio>
+                </td>
+                <td>
+                    <audio controls="controls" class="player" preload="metadata">
+                        <source src="audio/sawsing_f1_3.wav" type="audio/wav">
+                        Your browser does not support the audio element.
+                    </audio>
+                </td>
+                <td>
+                    <audio controls="controls" class="player" preload="metadata">
+                        <source src="audio/pulse_f1_3.wav" type="audio/wav">
+                        Your browser does not support the audio element.
+                    </audio>
+                </td>
+                <td>
+                    <audio controls="controls" class="player" preload="metadata">
+                        <source src="audio/glottal_d_f1_3.wav" type="audio/wav">
+                        Your browser does not support the audio element.
+                    </audio>
+                </td>
+            </tr>
+
+
+        </table>
+
+        <h3 class="">Singer m1</h3>
+
+        <table class="table table-sm text-center" style="vertical-align: middle;">
+            <tr>
+                <th>Test clip</th>
+                <th><span>Reference</span></th>
+                <th><span class="ddsp">DDSP</span></th>
+                <th><span class="saw">SawSing</span></th>
+                <th><span class="pulf">PULF</span></th>
+                <th><span class="golf">GOLF</span></th>
+            </tr>
+
+            <tr>
+                <td class="passage">Clip 1
+                </td>
+                <td>
+                    <audio controls="controls" class="player" preload="metadata">
+                        <source src="audio/gt_m1_1.wav" type="audio/wav">
+                        Your browser does not support the audio element.
+                    </audio>
+                </td>
+                <td>
+                    <audio controls="controls" class="player" preload="metadata">
+                        <source src="audio/ddsp_m1_1.wav" type="audio/wav">
+                        Your browser does not support the audio element.
+                    </audio>
+                </td>
+                <td>
+                    <audio controls="controls" class="player" preload="metadata">
+                        <source src="audio/sawsing_m1_1.wav" type="audio/wav">
+                        Your browser does not support the audio element.
+                    </audio>
+                </td>
+                <td>
+                    <audio controls="controls" class="player" preload="metadata">
+                        <source src="audio/pulse_m1_1.wav" type="audio/wav">
+                        Your browser does not support the audio element.
+                    </audio>
+                </td>
+                <td>
+                    <audio controls="controls" class="player" preload="metadata">
+                        <source src="audio/glottal_d_m1_1.wav" type="audio/wav">
+                        Your browser does not support the audio element.
+                    </audio>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="passage">Clip 2
+                </td>
+                <td>
+                    <audio controls="controls" class="player" preload="metadata">
+                        <source src="audio/gt_m1_2.wav" type="audio/wav">
+                        Your browser does not support the audio element.
+                    </audio>
+                </td>
+                <td>
+                    <audio controls="controls" class="player" preload="metadata">
+                        <source src="audio/ddsp_m1_2.wav" type="audio/wav">
+                        Your browser does not support the audio element.
+                    </audio>
+                </td>
+                <td>
+                    <audio controls="controls" class="player" preload="metadata">
+                        <source src="audio/sawsing_m1_2.wav" type="audio/wav">
+                        Your browser does not support the audio element.
+                    </audio>
+                </td>
+                <td>
+                    <audio controls="controls" class="player" preload="metadata">
+                        <source src="audio/pulse_m1_2.wav" type="audio/wav">
+                        Your browser does not support the audio element.
+                    </audio>
+                </td>
+                <td>
+                    <audio controls="controls" class="player" preload="metadata">
+                        <source src="audio/glottal_d_m1_2.wav" type="audio/wav">
+                        Your browser does not support the audio element.
+                    </audio>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="passage">Clip 3
+                </td>
+                <td>
+                    <audio controls="controls" class="player" preload="metadata">
+                        <source src="audio/gt_m1_3.wav" type="audio/wav">
+                        Your browser does not support the audio element.
+                    </audio>
+                </td>
+                <td>
+                    <audio controls="controls" class="player" preload="metadata">
+                        <source src="audio/ddsp_m1_3.wav" type="audio/wav">
+                        Your browser does not support the audio element.
+                    </audio>
+                </td>
+                <td>
+                    <audio controls="controls" class="player" preload="metadata">
+                        <source src="audio/sawsing_m1_3.wav" type="audio/wav">
+                        Your browser does not support the audio element.
+                    </audio>
+                </td>
+                <td>
+                    <audio controls="controls" class="player" preload="metadata">
+                        <source src="audio/pulse_m1_3.wav" type="audio/wav">
+                        Your browser does not support the audio element.
+                    </audio>
+                </td>
+                <td>
+                    <audio controls="controls" class="player" preload="metadata">
+                        <source src="audio/glottal_d_m1_3.wav" type="audio/wav">
+                        Your browser does not support the audio element.
+                    </audio>
+                </td>
+            </tr>
+
+
+        </table>
+
+    </div>
+
+    <div class="section">
+        <h2 class="text-center">Additional Materials</h2>
+        <hr>
+    </div>
+
+    <div class="section">
+        <h2 class="text-center">Citation</h2>
+        <hr>
+        <div style="background-color: #e9ecef;">
+  <pre><code>
+@inproceedings{ycy2023golf,
+    title={Singing Voice Synthesis Using Differentiable LPC and Glottal-Flow-Inspired Wavetables},
+    author={Chin-Yun Yu and Gy{\"o}rgy Fazekas},
+    booktitle={International Society for Music Information Retrieval (ISMIR)},
+    year={2023}
+}
+  </code></pre>
+        </div>
+    </div>
+
+    <hr>
+    <footer>
+        <p>Send feedback and questions to <a href="mailto:chin-yun.yu@qmul.ac.uk" target=”_blank”>Chin-Yun Yu</a>.
+            <br>Scroll to <a href="#">top</a>.</p>
+        <p>&nbsp;</p>
+    </footer>
+</div>
+
+<!-- Bootstrap core JavaScript -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
+        integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
+        crossorigin="anonymous"></script>
+<script src="js/slider.js"></script>
+</body>
+
+</html>
