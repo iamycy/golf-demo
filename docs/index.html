@@ -61,13 +61,16 @@
     </div>
 
     <div class="section">
-        <h2 class="text-center">Listening Samples</h2>
-        <hr>
-        <p>
-            This section contains the listening samples used for subjective evaluation in the paper.
-            Reference is the ground truth audio, and the other columns are the synthesized audio from different models.
-            The synthesis paraemters were computed from the ground truth mel-spectrograms.
-        </p>
+        <div class="abstract">
+            <h2 class="text-center">Listening Samples</h2>
+            <hr>
+            <p>
+                This section contains the listening samples used for subjective evaluation in the paper.
+                Reference is the ground truth audio, and the other columns are the synthesized audio from different models.
+                The synthesis paraemters were computed from the ground truth mel-spectrograms.
+            </p>
+        </div>
+
 
         <h3 class="text-center">Singer f1</h3>
 
@@ -314,26 +317,122 @@
     </div>
 
     <div class="section">
-        <h2 class="text-center">Additional Materials</h2>
-        <hr>
-        <h3 class="text-center">Fluctuation Artefacts</h3>
-        <p>
-            The following image illustrates the fluctuation artefacts mentioned in the discussions section of the paper, using one second of audio from the f1 test samples.
-            The noise gain predicted by PULF is fluctuating at a high speed.
-            Other parameters also show similar behavior but the effect is small.
-            We hypothesise the cause could relate to:
-            <ol>
-                <li>
-                    The spectral energy distributions of the harmonic components.
-                </li>
-                <li>
-                    The errors introduced by the frame-wise LPC approximation.
-                </li>
+        <div class="abstract">
+            <h2 class="text-center">Additional Materials</h2>
+            <hr>
+            <h3 class="text-center">Fluctuation Artefacts</h3>
+            <p>
+                The following image illustrates the fluctuation artefacts mentioned in the discussions section of the paper, using one second of audio from the f1 test samples.
+                The noise gain predicted by PULF is fluctuating at a high speed.
+                Other parameters also show similar behavior but the effect is small.
+                We hypothesise the cause could relate to:
+                <ol>
+                    <li>
+                        The spectral energy distributions of the harmonic components.
+                    </li>
+                    <li>
+                        The errors introduced by the frame-wise LPC approximation.
+                    </li>
+    
+                </ol>
+            </p>
+            <div class="mt-3 text-center">
+                <img class="img-fluid" src='assets/images/artefacts.png'>
+            </div>
+        </div>
 
-            </ol>
-        </p>
-        <div class="mt-3 text-center">
-            <img class="img-fluid" src='assets/images/artefacts.png'>
+        <div>
+
+            <h3 class="text-center">Decompositions</h3>
+            <p>
+                We show the intermediate representations of f1 clip 1 from GOLF.
+            </p>
+
+            <table class="table table-sm text-center" style="vertical-align: middle; width: 100%;">
+                <tr>
+                    <th>Representation</th>
+                    <th style="width: 30%;"><span>Audio</span></th>
+                    <th style="width: 50%;"><span>Spectrogram</span></th>
+                </tr>
+
+                <tr>
+                    <td class="passage">Predicted pitch (pulse train)</td>
+                    <td>
+                        <audio controls="controls" class="player" preload="metadata">
+                            <source src="audio/golf_f1_1_pulse.wav" type="audio/wav">
+                            Your browser does not support the audio element.
+                        </audio>
+                    </td>
+                    <td>
+                        <img class="img-fluid" src='assets/images/pulse_train.png'>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="passage">Glottal flow</td>
+                    <td>
+                        <audio controls="controls" class="player" preload="metadata">
+                            <source src="audio/golf_f1_1_en.wav" type="audio/wav">
+                            Your browser does not support the audio element.
+                        </audio>
+                    </td>
+                    <td>
+                        <img class="img-fluid" src='assets/images/e_n.png'>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="passage">Filtered glottal flow</td>
+                    <td>
+                        <audio controls="controls" class="player" preload="metadata">
+                            <source src="audio/golf_f1_1_filtered_en.wav" type="audio/wav">
+                            Your browser does not support the audio element.
+                        </audio>
+                    </td>
+                    <td>
+                        <img class="img-fluid" src='assets/images/filtered_en.png'>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="passage">Residual</td>
+                    <td>
+                        <audio controls="controls" class="player" preload="metadata">
+                            <source src="audio/golf_f1_1_noise.wav" type="audio/wav">
+                            Your browser does not support the audio element.
+                        </audio>
+                    </td>
+                    <td>
+                        <img class="img-fluid" src='assets/images/filtered_noise.png'>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="passage">Combined</td>
+                    <td>
+                        <audio controls="controls" class="player" preload="metadata">
+                            <source src="audio/glottal_d_f1_1.wav" type="audio/wav">
+                            Your browser does not support the audio element.
+                        </audio>
+                    </td>
+                    <td>
+                        <img class="img-fluid" src='assets/images/combine.png'>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="passage">Original</td>
+                    <td>
+                        <audio controls="controls" class="player" preload="metadata">
+                            <source src="audio/gt_f1_1.wav" type="audio/wav">
+                            Your browser does not support the audio element.
+                        </audio>
+                    </td>
+                    <td>
+                        <img class="img-fluid" src='assets/images/reference.png'>
+                    </td>
+                </tr>
+            </table>
         </div>
     </div>
 
